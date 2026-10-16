@@ -146,8 +146,10 @@ export function PrivacySection() {
       const link = document.createElement("a");
       link.href = url;
       link.download = "ayok-kita-ngedate-export.json";
+      document.body.appendChild(link); // must be attached for the click to start a download in every browser
       link.click();
-      URL.revokeObjectURL(url);
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 10000);
     },
   });
 
