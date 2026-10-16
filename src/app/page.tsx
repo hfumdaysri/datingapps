@@ -13,8 +13,8 @@ export default async function Welcome() {
   return (
     <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center gap-6 px-4 py-10">
       <div className="text-center">
-        <h1 className="font-serif text-4xl text-plum">Our Little Space</h1>
-        <p className="mt-2 text-plum/80">A little place for us, no matter the distance.</p>
+        <h1 className="font-serif text-4xl text-plum">Ayok Kita Ngedate</h1>
+        <p className="mt-2 text-plum/80">yaa meskipun online semoga seru deh xixixi ❤️</p>
       </div>
       <Card className="flex flex-col gap-3">
         <p>Selamat datang kembali. Buka tautan undangan, atau masuk dengan kunci pemulihanmu.</p>

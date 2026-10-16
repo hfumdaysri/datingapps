@@ -8,7 +8,7 @@ export default async function LobbyPage({ params }: { params: Promise<{ dateId: 
   const { dateId } = await params;
   if (!/^[0-9a-f-]{36}$/i.test(dateId)) notFound();
   return (
-    <AppShell title="Our Date">
+    <AppShell title="Ngedate Kita">
       <LobbyClient dateId={dateId} />
     </AppShell>
   );

@@ -6,10 +6,10 @@ import { Home, Gamepad2, CalendarHeart, BookHeart } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const items = [
-  { href: "/home", label: "Home", Icon: Home },
-  { href: "/games", label: "Games", Icon: Gamepad2 },
-  { href: "/dates", label: "Dates", Icon: CalendarHeart },
-  { href: "/memories", label: "Memories", Icon: BookHeart },
+  { href: "/home", label: "Beranda", Icon: Home },
+  { href: "/games", label: "Game", Icon: Gamepad2 },
+  { href: "/dates", label: "Kencan", Icon: CalendarHeart },
+  { href: "/memories", label: "Kenangan", Icon: BookHeart },
 ];
 
 export function AppNav() {

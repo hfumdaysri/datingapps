@@ -3,6 +3,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Card } from "@/components/card";
 import { api } from "@/lib/client/api";
+import { categoryLabel } from "@/lib/client/labels";
 import { DEEP_CATEGORIES, normalizePrefs, TRUTH_CATEGORIES, type Prefs } from "@/lib/client/prefs";
 
 function Group({ title, all, value, onChange }: { title: string; all: string[]; value: string[]; onChange: (v: string[]) => void }) {
@@ -19,7 +20,7 @@ function Group({ title, all, value, onChange }: { title: string; all: string[]; 
                   const next = on ? value.filter((x) => x !== c) : [...value, c];
                   if (next.length > 0) onChange(next); // at least one category must stay enabled
                 }} />
-              {c}
+              {categoryLabel(c)}
             </label>
           );
         })}
@@ -41,14 +42,14 @@ export function QuestionSettings() {
   return (
     <Card>
       <h2 className="mb-3 font-serif text-xl">Kategori pertanyaan</h2>
-      <Group title="Truth or Truth" all={TRUTH_CATEGORIES} value={prefs.truthCategories} onChange={(v) => set({ truthCategories: v })} />
-      <Group title="Deep Talk Cards" all={DEEP_CATEGORIES} value={prefs.deepCategories} onChange={(v) => set({ deepCategories: v })} />
+      <Group title="Jujur-jujuran" all={TRUTH_CATEGORIES} value={prefs.truthCategories} onChange={(v) => set({ truthCategories: v })} />
+      <Group title="Kartu Ngobrol" all={DEEP_CATEGORIES} value={prefs.deepCategories} onChange={(v) => set({ deepCategories: v })} />
       <label className="flex min-h-11 cursor-pointer items-start gap-3">
         <input type="checkbox" className="mt-1.5 size-5" checked={prefs.vulnerable} onChange={(e) => set({ vulnerable: e.target.checked })} />
         <span>
-          <span className="font-semibold">Aktifkan tema Vulnerable</span>
+          <span className="font-semibold">Aktifkan tema Lebih Pribadi</span>
           <span className="block text-sm text-plum/70">
-            Pertanyaan yang lebih pribadi, hanya di Deep Talk. Mati secara default; boleh dilewati kapan saja.
+            Pertanyaan yang lebih pribadi, hanya di Kartu Ngobrol. Mati secara default; boleh dilewati kapan saja.
           </span>
         </span>
       </label>

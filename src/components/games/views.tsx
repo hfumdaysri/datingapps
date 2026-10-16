@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/card";
+import { categoryLabel, themeLabel } from "@/lib/client/labels";
 import type { Actions } from "./game-room";
 
 const PROMPT = "font-serif text-2xl leading-snug sm:text-3xl";
@@ -26,7 +27,7 @@ export function ConversationView({ a, onSave }: { a: Actions; onSave: () => void
             {choices.map((c) => (
               <Button key={c.side} className="min-h-24 flex-col text-lg" variant={isMyTurn ? "primary" : "secondary"}
                 disabled={!isMyTurn || busy} onClick={() => a.select(c.side)}>
-                {c.label}
+                {themeLabel(c.label)}
               </Button>
             ))}
           </div>
@@ -37,7 +38,7 @@ export function ConversationView({ a, onSave }: { a: Actions; onSave: () => void
     return (
       <section className="flex flex-col items-center gap-4">
         <Card className="flex min-h-56 w-full flex-col items-center justify-center bg-lavender/40 text-center">
-          <p className="text-sm uppercase tracking-wide text-plum/70">Kartu {round.category}</p>
+          <p className="text-sm uppercase tracking-wide text-plum/70">Kartu {categoryLabel(round.category)}</p>
           <p className="mt-2 font-serif text-3xl">?</p>
         </Card>
         <Button disabled={busy} onClick={() => a.select("open")}>Buka kartu</Button>
@@ -48,7 +49,7 @@ export function ConversationView({ a, onSave }: { a: Actions; onSave: () => void
   return (
     <section className="flex flex-col gap-4">
       <Card>
-        {round.category && <p className="mb-2 text-sm text-plum/70">{round.category}</p>}
+        {round.category && <p className="mb-2 text-sm text-plum/70">{categoryLabel(round.category)}</p>}
         <p className={PROMPT} data-testid="prompt">{round.prompt}</p>
       </Card>
       {round.followUp && (

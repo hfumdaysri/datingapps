@@ -11,10 +11,10 @@ export const dynamic = "force-dynamic";
 const DEMO_ANNIVERSARY = "2025-01-01"; // only used when Supabase is not configured
 
 const tiles = [
-  { href: "/games", title: "Games", desc: "Pilih permainan untuk malam ini" },
-  { href: "/dates", title: "Dates", desc: "Sesi kencan kalian" },
-  { href: "/memories", title: "Memories", desc: "Momen yang kalian simpan" },
-  { href: "/settings", title: "Settings", desc: "Nama, warna, pertanyaan" },
+  { href: "/games", title: "Game", desc: "Pilih permainan untuk malam ini" },
+  { href: "/dates", title: "Kencan", desc: "Sesi kencan kalian" },
+  { href: "/memories", title: "Kenangan", desc: "Momen yang kalian simpan" },
+  { href: "/settings", title: "Pengaturan", desc: "Nama, warna, pertanyaan" },
 ];
 
 export default async function HomePage() {
@@ -23,7 +23,7 @@ export default async function HomePage() {
   const members = me ? await getSpaceMembers(me.space.id) : [];
   const other = members.find((m) => m.id !== me?.memberId);
   return (
-    <AppShell title="Home">
+    <AppShell title="Beranda">
       <Card className="mb-4 text-center">
         <p className="text-sm text-plum/70">
           {me ? `Halo, ${me.displayName}${other ? ` & ${other.name}` : ""}` : "Mode demo"}
@@ -34,7 +34,7 @@ export default async function HomePage() {
       {me ? (
         <DateCard members={members} />
       ) : (
-        <Button disabled className="mb-6 w-full">Start Our Date</Button>
+        <Button disabled className="mb-6 w-full">Mulai Ngedate</Button>
       )}
       <ul className="grid grid-cols-1 gap-3 min-[420px]:grid-cols-2">
         {tiles.map((t) => (

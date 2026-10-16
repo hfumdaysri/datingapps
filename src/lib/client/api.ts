@@ -42,8 +42,8 @@ export type DateInfo = {
 };
 
 export const GAME_LABEL: Record<GameType, string> = {
-  truth_or_truth: "Truth or Truth",
-  deep_talk: "Deep Talk Cards",
-  would_you_rather: "Would You Rather?",
-  most_likely: "Who’s More Likely To?",
+  truth_or_truth: "Jujur-jujuran",
+  deep_talk: "Kartu Ngobrol",
+  would_you_rather: "Pilih Mana?",
+  most_likely: "Siapa yang Paling Mungkin?",
 };

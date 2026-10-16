@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 
 export default function MemoriesPage() {
   return (
-    <AppShell title="Memories">
+    <AppShell title="Kenangan">
       {getPublicEnv() ? <MemoriesClient /> : <p>Hubungkan Supabase untuk menyimpan momen.</p>}
     </AppShell>
   );

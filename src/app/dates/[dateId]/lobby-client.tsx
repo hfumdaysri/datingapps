@@ -31,20 +31,20 @@ export function LobbyClient({ dateId }: { dateId: string }) {
 
   if (isLoading) return <p role="status">Memuat…</p>;
   if (loadError || !date) {
-    return <Card>{loadError instanceof ApiError && loadError.status === 404 ? "Date tidak ditemukan." : "Belum bisa memuat date."}</Card>;
+    return <Card>{loadError instanceof ApiError && loadError.status === 404 ? "Ngedate tidak ditemukan." : "Belum bisa memuat ngedate."}</Card>;
   }
 
   if (date.status === "finished") {
     return (
       <Card className="flex flex-col gap-3 text-center">
-        <h2 className="font-serif text-2xl">Date selesai</h2>
+        <h2 className="font-serif text-2xl">Ngedate selesai</h2>
         <ul className="text-plum/80">
           <li>{date.summary.games} permainan dimainkan</li>
           <li>{date.summary.prompts} pertanyaan dijelajahi</li>
           <li>{date.summary.moments} momen tersimpan bersama</li>
         </ul>
         <p className="text-sm text-plum/70">Jawaban dan obrolan tidak disimpan otomatis.</p>
-        <Button asChild><Link href="/home">Kembali ke Home</Link></Button>
+        <Button asChild><Link href="/home">Kembali ke Beranda</Link></Button>
       </Card>
     );
   }
@@ -66,8 +66,8 @@ export function LobbyClient({ dateId }: { dateId: string }) {
           ))}
         </ul>
       </Card>
-      <Button variant="ghost" onClick={() => setConfirmFinish(true)}>Finish Date</Button>
-      <ConfirmDialog open={confirmFinish} title="Akhiri date?" confirmLabel="Akhiri"
+      <Button variant="ghost" onClick={() => setConfirmFinish(true)}>Akhiri Ngedate</Button>
+      <ConfirmDialog open={confirmFinish} title="Akhiri ngedate?" confirmLabel="Akhiri"
         body="Permainan yang berjalan akan selesai untuk kalian berdua. Obrolan dan jawaban tidak disimpan otomatis."
         onCancel={() => setConfirmFinish(false)}
         onConfirm={() => { setConfirmFinish(false); finish.mutate(date); }} />

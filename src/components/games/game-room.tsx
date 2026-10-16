@@ -97,7 +97,7 @@ export function GameRoom({ gameId }: { gameId: string }) {
           <Card className="text-center">
             <h2 className="font-serif text-2xl">Permainan selesai</h2>
             <p className="mt-1">Terima kasih sudah ngobrol bareng.</p>
-            <Button asChild className="mt-4"><Link href={`/dates/${game.dateId}`}>Kembali ke Date</Link></Button>
+            <Button asChild className="mt-4"><Link href={`/dates/${game.dateId}`}>Kembali ke Ngedate</Link></Button>
           </Card>
         ) : paused ? (
           <Card className="text-center">
@@ -124,7 +124,7 @@ export function GameRoom({ gameId }: { gameId: string }) {
             onClick={() => run.mutate({ path: "pause", body: { expectedVersion: v, pause: true } })}>
             Jeda
           </Button>
-          <Button asChild variant="secondary"><Link href={`/dates/${game.dateId}`}>Kembali ke Date</Link></Button>
+          <Button asChild variant="secondary"><Link href={`/dates/${game.dateId}`}>Kembali ke Ngedate</Link></Button>
         </footer>
       )}
 

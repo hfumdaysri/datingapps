@@ -7,11 +7,11 @@ import { useStartGame } from "@/lib/client/use-start-game";
 import type { GameType } from "@/lib/client/api";
 
 const games: Array<{ type: GameType | null; name: string; desc: string; tag: string }> = [
-  { type: "truth_or_truth", name: "Truth or Truth", desc: "Pilih satu dari dua jalur pertanyaan, jawab bergantian.", tag: "Sweet / Deep" },
-  { type: "deep_talk", name: "Deep Talk Cards", desc: "Tarik satu kartu dan ngobrol, tanpa skor.", tag: "Deep" },
-  { type: "would_you_rather", name: "Would You Rather?", desc: "Pilih A atau B diam-diam, lalu buka bersama.", tag: "Fun" },
-  { type: "most_likely", name: "Who’s More Likely To?", desc: "Tebak siapa yang paling mungkin, reveal bareng.", tag: "Fun / Sweet" },
-  { type: null, name: "How Well Do You Know Me?", desc: "Seberapa kenal kamu dengan pasanganmu.", tag: "Coming Next" },
+  { type: "truth_or_truth", name: "Jujur-jujuran", desc: "Pilih satu dari dua jalur pertanyaan, jawab bergantian.", tag: "Manis / Dalam" },
+  { type: "deep_talk", name: "Kartu Ngobrol", desc: "Tarik satu kartu dan ngobrol, tanpa skor.", tag: "Dalam" },
+  { type: "would_you_rather", name: "Pilih Mana?", desc: "Pilih A atau B diam-diam, lalu buka bersama.", tag: "Seru" },
+  { type: "most_likely", name: "Siapa yang Paling Mungkin?", desc: "Tebak siapa yang paling mungkin, reveal bareng.", tag: "Seru / Manis" },
+  { type: null, name: "Seberapa Kenal Aku?", desc: "Seberapa kenal kamu dengan pasanganmu.", tag: "Segera Hadir" },
 ];
 
 export function GamesClient() {
@@ -27,9 +27,9 @@ export function GamesClient() {
               <p className="text-plum/80">{g.desc}</p>
               <p className="mt-2 text-sm text-plum/70">{g.tag} · ~5-15 menit</p>
               {g.type ? (
-                <Button className="mt-3" disabled={busy} onClick={() => start(g.type!)}>Play</Button>
+                <Button className="mt-3" disabled={busy} onClick={() => start(g.type!)}>Main</Button>
               ) : (
-                <p className="mt-3 text-sm font-semibold">Coming Next</p>
+                <p className="mt-3 text-sm font-semibold">Segera Hadir</p>
               )}
             </Card>
           </li>

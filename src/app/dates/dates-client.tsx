@@ -13,19 +13,19 @@ export function DatesClient() {
   if (!date) {
     return (
       <Card className="flex flex-col gap-3">
-        <p>Belum ada date yang berlangsung. Mulai satu, lalu pasanganmu bisa bergabung dari layarnya.</p>
-        <Button disabled={start.isPending} onClick={() => start.mutate()}>Start Our Date</Button>
+        <p>Belum ada ngedate yang berlangsung. Mulai satu, lalu pasanganmu bisa bergabung dari layarnya.</p>
+        <Button disabled={start.isPending} onClick={() => start.mutate()}>Mulai Ngedate</Button>
       </Card>
     );
   }
   return (
     <Card className="flex flex-col gap-3">
-      <h2 className="font-serif text-xl">Date berlangsung</h2>
+      <h2 className="font-serif text-xl">Ngedate berlangsung</h2>
       <p>
         Dimulai {new Intl.DateTimeFormat("id-ID", { timeZone: "Asia/Jakarta", dateStyle: "medium", timeStyle: "short" }).format(new Date(date.startedAt))}
       </p>
       {date.activeGame && <p>Sedang bermain: {GAME_LABEL[date.activeGame.type]}</p>}
-      <Button asChild><Link href={`/dates/${date.id}`}>Join Date</Link></Button>
+      <Button asChild><Link href={`/dates/${date.id}`}>Gabung Ngedate</Link></Button>
     </Card>
   );
 }

@@ -35,7 +35,7 @@ export function RecoveryKeyPanel({ recoveryKey }: { recoveryKey: string }) {
         Aku sudah menyimpannya
       </label>
       <Button disabled={!saved} onClick={() => window.location.assign("/home")}>
-        Lanjut ke Home
+        Lanjut ke Beranda
       </Button>
     </Card>
   );

@@ -8,8 +8,8 @@ const sans = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-sans" });
 const serif = Fraunces({ subsets: ["latin"], variable: "--font-serif" });
 
 export const metadata: Metadata = {
-  title: "Our Little Space",
-  description: "A little place for us, no matter the distance.",
+  title: "Ayok Kita Ngedate",
+  description: "yaa meskipun online semoga seru deh xixixi ❤️",
   robots: { index: false, follow: false },
   manifest: "/manifest.webmanifest",
 };

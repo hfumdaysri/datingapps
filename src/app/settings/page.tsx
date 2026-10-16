@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export default async function SettingsPage() {
   const me = await getMe();
   return (
-    <AppShell title="Settings">
+    <AppShell title="Pengaturan">
       <div className="flex flex-col gap-4">
         {me && (
           <Card>

@@ -19,7 +19,7 @@ export function useStartDate() {
   });
 }
 
-/** Home hero: Start / Continue Our Date, plus advisory presence for both seats. */
+/** Home hero: Start / Lanjut Ngedate, plus advisory presence for both seats. */
 export function DateCard({ members }: { members: Member[] }) {
   const { data: date, isLoading } = useActiveDate();
   const start = useStartDate();
@@ -31,15 +31,15 @@ export function DateCard({ members }: { members: Member[] }) {
       {date ? (
         <>
           <p className="text-center">
-            {date.activeGame ? `Sedang bermain ${GAME_LABEL[date.activeGame.type]}` : "Date sedang berlangsung"}
+            {date.activeGame ? `Sedang bermain ${GAME_LABEL[date.activeGame.type]}` : "Ngedate sedang berlangsung"}
           </p>
           <Button asChild className="w-full">
-            <Link href={date.activeGame ? `/play/${date.activeGame.id}` : `/dates/${date.id}`}>Continue Our Date</Link>
+            <Link href={date.activeGame ? `/play/${date.activeGame.id}` : `/dates/${date.id}`}>Lanjut Ngedate</Link>
           </Button>
         </>
       ) : (
         <Button className="w-full" disabled={isLoading || start.isPending} onClick={() => start.mutate()}>
-          Start Our Date
+          Mulai Ngedate
         </Button>
       )}
       {start.error && <p role="alert" className="text-danger">{start.error instanceof ApiError ? start.error.message : "Gagal memulai."}</p>}

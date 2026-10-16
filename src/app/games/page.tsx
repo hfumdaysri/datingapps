@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 
 export default function GamesPage() {
   return (
-    <AppShell title="Games">
+    <AppShell title="Game">
       {getPublicEnv() ? <GamesClient /> : <p>Hubungkan Supabase untuk bermain.</p>}
     </AppShell>
   );

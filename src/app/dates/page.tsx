@@ -6,8 +6,8 @@ export const dynamic = "force-dynamic";
 
 export default function DatesPage() {
   return (
-    <AppShell title="Dates">
-      {getPublicEnv() ? <DatesClient /> : <p>Hubungkan Supabase untuk memulai date.</p>}
+    <AppShell title="Kencan">
+      {getPublicEnv() ? <DatesClient /> : <p>Hubungkan Supabase untuk mulai ngedate.</p>}
     </AppShell>
   );
 }
