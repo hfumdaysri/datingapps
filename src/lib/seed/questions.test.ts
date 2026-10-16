@@ -10,7 +10,8 @@ describe("seed content", () => {
     expect(SEED_QUESTIONS.filter((q) => q.depth === "vulnerable").length).toBeGreaterThanOrEqual(10);
     expect(count("would_you_rather")).toBeGreaterThanOrEqual(50);
     expect(count("most_likely")).toBeGreaterThanOrEqual(50);
-    expect(SEED_QUESTIONS.length).toBeGreaterThanOrEqual(230);
+    expect(count("know_me")).toBeGreaterThanOrEqual(50);
+    expect(SEED_QUESTIONS.length).toBeGreaterThanOrEqual(280);
   });
 
   it("has unique seed keys and well-formed pairs", () => {

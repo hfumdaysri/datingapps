@@ -131,6 +131,37 @@ async function main() {
   await B.screenshot({ path: `${SHOTS}/reveal-phone.png` });
   check("phone has no overflow in game (390px)", await noHorizontalOverflow(B));
 
+  // ---- know me ----
+  await A.getByRole("link", { name: "Kembali ke Ngedate" }).click();
+  await A.waitForURL(/\/dates\//);
+  await A.getByRole("button", { name: "Seberapa Kenal Aku?" }).click();
+  await A.getByRole("dialog").getByRole("button", { name: "Ganti" }).click();
+  await A.waitForURL(/\/play\//, { timeout: T });
+  await B.getByText("Permainan selesai").waitFor({ timeout: T });
+  await B.getByRole("link", { name: "Kembali ke Ngedate" }).click();
+  await B.getByRole("link", { name: "Lanjut bermain" }).click();
+  await B.waitForURL(/\/play\//, { timeout: T });
+  await A.getByTestId("prompt").waitFor({ timeout: T });
+  await B.getByTestId("prompt").waitFor({ timeout: T });
+  const aOwner = await A.getByText("Kamu menjawab jujur").isVisible().catch(() => false);
+  const [kOwner, kGuesser] = aOwner ? [A, B] : [B, A];
+  await kOwner.locator("#answer").fill("Nasi goreng");
+  await kOwner.getByRole("button", { name: "Kunci jawaban" }).click();
+  await kOwner.getByText("Jawabanmu terkunci").waitFor({ timeout: T });
+  check("guesser sees no answer before locking", (await kGuesser.getByText("Nasi goreng").count()) === 0);
+  await kGuesser.locator("#answer").fill("Mie ayam");
+  await kGuesser.getByRole("button", { name: "Kunci jawaban" }).click();
+  await A.getByRole("region", { name: "Hasil" }).waitFor({ timeout: T });
+  await B.getByRole("region", { name: "Hasil" }).waitFor({ timeout: T });
+  check("know-me reveals both answers on both screens", (await A.getByText("Nasi goreng").count()) > 0 && (await B.getByText("Mie ayam").count()) > 0);
+  await kOwner.getByRole("button", { name: "Hampir" }).click();
+  await kGuesser.getByText(/Hampir benar/).waitFor({ timeout: T });
+  check("owner judgment reaches the guesser with score", (await kGuesser.getByText(/Skor seru/).count()) > 0);
+  await B.screenshot({ path: `${SHOTS}/knowme-phone.png` });
+  await kGuesser.getByRole("button", { name: "Berikutnya" }).click();
+  await A.getByText("Ronde 2").waitFor({ timeout: T });
+  check("roles swap in the next know-me round", (await (aOwner ? B : A).getByText("Kamu menjawab jujur").count()) === 1);
+
   // ---- finish ----
   await A.getByRole("link", { name: "Kembali ke Ngedate" }).click();
   await A.waitForURL(/\/dates\//);
@@ -140,6 +171,28 @@ async function main() {
   await A.reload();
   await A.getByText("Ngedate selesai").waitFor({ timeout: T });
   check("finished date stays finished after refresh", true);
+  // ---- settings: custom prompt, export, mutual-consent deletion ----
+  await A.goto(`${BASE}/settings`);
+  await A.getByText("Pertanyaan buatan sendiri").waitFor({ timeout: T });
+  await A.locator("textarea").first().fill("Pertanyaan uji smoke");
+  await A.getByRole("button", { name: "Tambah" }).click();
+  await A.getByText("Ditambahkan.").waitFor({ timeout: T });
+  check("custom prompt can be added", true);
+  await A.getByRole("button", { name: "Hapus" }).first().click();
+  const [download] = await Promise.all([A.waitForEvent("download", { timeout: T }), A.getByRole("button", { name: "Unduh data (JSON)" }).click()]);
+  check("export downloads a JSON file", download.suggestedFilename().endsWith(".json"));
+  await A.getByRole("button", { name: "Minta hapus data bersama" }).click();
+  await A.getByRole("dialog").getByRole("button", { name: "Kirim permintaan" }).click();
+  await A.getByText(/menunggu persetujuan/).waitFor({ timeout: T });
+  await B.goto(`${BASE}/home`);
+  await B.getByText(/meminta menghapus data bersama/).waitFor({ timeout: T });
+  check("partner is notified of the deletion request on Beranda", true);
+  await B.goto(`${BASE}/settings`);
+  await B.getByRole("button", { name: /Setujui/ }).click();
+  await B.getByRole("button", { name: "Minta hapus data bersama" }).waitFor({ timeout: T });
+  const left = await admin.from("date_sessions").select("id");
+  check("approved deletion removes the date history", (left.data?.length ?? 0) === 0);
+
   check("no uncaught page errors", errors.length === 0, errors.join(" | "));
   await browser.close();
 }

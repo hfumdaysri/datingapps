@@ -136,3 +136,88 @@ export function VoteView({ a }: { a: Actions }) {
     </section>
   );
 }
+
+/** How Well Do You Know Me?: owner answers honestly, partner guesses, owner judges. */
+export function KnowMeView({ a }: { a: Actions }) {
+  const { state, busy, nameOf } = a;
+  const round = state.round!;
+  const ownerId = round.ownerId ?? round.turnMemberId ?? "";
+  const iAmOwner = ownerId === state.me.memberId;
+  const guesserId = state.members.find((m) => m.id !== ownerId)?.id ?? "";
+  const [text, setText] = useState("");
+  const revealed = round.phase === "revealed" || round.phase === "completed";
+  const answers = (revealed ? round.answers : null) ?? {};
+  const scores = state.scores;
+
+  return (
+    <section className="flex flex-col gap-4">
+      {scores && (
+        <p className="text-center text-sm text-plum/70" aria-label="Skor seru">
+          Skor seru: {state.members.map((m) => `${m.name} ${scores[m.id] ?? 0}`).join(" · ")}
+        </p>
+      )}
+      <Card>
+        <p className="mb-2 text-sm text-plum/70">
+          {iAmOwner ? "Kamu menjawab jujur, pasanganmu menebak" : `${nameOf(ownerId)} menjawab jujur, kamu menebak`}
+        </p>
+        <p className={PROMPT} data-testid="prompt">{round.prompt}</p>
+      </Card>
+
+      {!revealed && round.myAnswer == null && (
+        <div className="flex flex-col gap-3">
+          <label htmlFor="answer" className="font-semibold">
+            {iAmOwner ? "Jawaban jujurmu" : `Tebakanmu untuk jawaban ${nameOf(ownerId)}`}
+          </label>
+          <textarea id="answer" rows={3} maxLength={200} value={text} onChange={(e) => setText(e.target.value)}
+            className="rounded-xl border border-plum/30 bg-white p-3 text-lg" />
+          <Button disabled={busy || text.trim().length === 0} onClick={() => a.answer(text.trim())}>Kunci jawaban</Button>
+          <p className="text-center text-sm text-plum/70">Rahasia sampai kalian berdua sudah menjawab.</p>
+        </div>
+      )}
+
+      {!revealed && round.myAnswer != null && (
+        <Card className="text-center" role="status">
+          <p>Jawabanmu terkunci.</p>
+          <p className="mt-1 text-plum/70">{round.partnerSubmitted ? "Membuka jawaban…" : "Menunggu pasanganmu…"}</p>
+        </Card>
+      )}
+
+      {revealed && (
+        <section aria-label="Hasil" className="flex flex-col gap-3">
+          <ul className="grid gap-2">
+            <li className="rounded-card bg-white p-4 ring-1 ring-blush/60">
+              <span className="text-sm text-plum/70">Jawaban {nameOf(ownerId)}</span>
+              <p className="text-lg font-semibold">{answers[ownerId] ?? "(sudah dihapus)"}</p>
+            </li>
+            <li className="rounded-card bg-white p-4 ring-1 ring-blush/60">
+              <span className="text-sm text-plum/70">Tebakan {nameOf(guesserId)}</span>
+              <p className="text-lg font-semibold">{answers[guesserId] ?? "(sudah dihapus)"}</p>
+            </li>
+          </ul>
+          {!round.judgment ? (
+            iAmOwner ? (
+              <div className="flex flex-col gap-2">
+                <p className="text-center font-semibold">Seberapa tepat tebakannya?</p>
+                <div className="grid grid-cols-3 gap-2">
+                  <Button disabled={busy} onClick={() => a.judge("correct")}>Benar</Button>
+                  <Button variant="secondary" disabled={busy} onClick={() => a.judge("close")}>Hampir</Button>
+                  <Button variant="secondary" disabled={busy} onClick={() => a.judge("different")}>Beda</Button>
+                </div>
+              </div>
+            ) : (
+              <p className="text-center text-plum/70" role="status">Menunggu {nameOf(ownerId)} menilai…</p>
+            )
+          ) : (
+            <>
+              <p className="text-center font-serif text-xl" role="status">
+                {round.judgment === "correct" ? "Benar!" : round.judgment === "close" ? "Hampir benar!" : "Beda jauh, ternyata!"}
+                {scores ? ` (+${round.points ?? 0})` : ""}
+              </p>
+              <Button disabled={busy} onClick={() => a.next("next")}>Berikutnya</Button>
+            </>
+          )}
+        </section>
+      )}
+    </section>
+  );
+}

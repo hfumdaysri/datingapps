@@ -18,7 +18,7 @@ export async function api<T>(path: string, body?: unknown): Promise<T> {
 
 // ---- shared types (mirror the SQL projections) ----
 export type Member = { id: string; seat: "A" | "B"; name: string };
-export type GameType = "truth_or_truth" | "deep_talk" | "would_you_rather" | "most_likely";
+export type GameType = "truth_or_truth" | "deep_talk" | "would_you_rather" | "most_likely" | "know_me";
 
 export type GameState = {
   game: {
@@ -27,11 +27,13 @@ export type GameState = {
   };
   me: { memberId: string; seat: "A" | "B" };
   members: Member[];
+  scores?: Record<string, number> | null;
   round: {
     id: string; number: number; phase: string; turnMemberId: string | null;
     category?: string; prompt?: string; followUp?: string | null; questionId?: string;
     choices?: Array<{ side: "left" | "right"; label: string }> | Record<string, string>;
     optionA?: string; optionB?: string; myChoice?: string | null; partnerSubmitted?: boolean; same?: boolean;
+    ownerId?: string; myAnswer?: string | null; answers?: Record<string, string> | null; judgment?: "correct" | "close" | "different" | null; points?: number;
   } | null;
 };
 
@@ -46,4 +48,5 @@ export const GAME_LABEL: Record<GameType, string> = {
   deep_talk: "Kartu Ngobrol",
   would_you_rather: "Pilih Mana?",
   most_likely: "Siapa yang Paling Mungkin?",
+  know_me: "Seberapa Kenal Aku?",
 };

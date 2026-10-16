@@ -9,6 +9,7 @@ const admin = createClient(url, process.env.SUPABASE_SERVICE_ROLE_KEY!, { auth: 
 
 const userIds: string[] = [];
 let failed = 0;
+let borrowed = false;
 function check(id: string, label: string, ok: boolean, extra = "") {
   console.log(`${ok ? "PASS" : "FAIL"} ${id} ${label}${ok ? "" : ` :: ${extra}`}`);
   if (!ok) failed++;
@@ -32,19 +33,29 @@ async function rpc(c: Client, name: string, args: Record<string, unknown> = {}):
 
 async function main() {
   const { count } = await admin.from("couple_spaces").select("*", { count: "exact", head: true });
-  if (count) throw new Error("A space already exists; refusing to run (would delete real data).");
-
-  const ta = randomToken(32), tb = randomToken(32);
-  const prov = await admin.rpc("provision_space", {
-    p_name: "test", p_anniversary: "2026-08-13", p_name_a: "Aa", p_name_b: "Bb",
-    p_hash_a: sha256Hex(ta), p_hash_b: sha256Hex(tb), p_expires: "1 hour",
-  });
-  if (prov.error) throw new Error(prov.error.message);
   const A = await newUser(), B = await newUser(), C = await newUser();
-  const ra = await admin.rpc("redeem_invite", { p_hash: sha256Hex(ta), p_uid: A.userId });
-  const rb = await admin.rpc("redeem_invite", { p_hash: sha256Hex(tb), p_uid: B.userId });
-  if (ra.error || rb.error) throw new Error("bind failed");
-  const idA = ra.data as string, idB = rb.data as string;
+  let idA: string, idB: string;
+  if (count) {
+    // Real space exists: borrow both seats for the test, release them in cleanup.
+    borrowed = true;
+    const { data: ms } = await admin.from("members").select("id, seat").order("seat");
+    idA = ms![0]!.id; idB = ms![1]!.id;
+    for (const [id, u] of [[idA, A], [idB, B]] as const) {
+      const { error } = await admin.rpc("rebind_member", { p_member: id, p_uid: u.userId });
+      if (error) throw new Error(error.message);
+    }
+  } else {
+    const ta = randomToken(32), tb = randomToken(32);
+    const prov = await admin.rpc("provision_space", {
+      p_name: "test", p_anniversary: "2026-08-13", p_name_a: "Aa", p_name_b: "Bb",
+      p_hash_a: sha256Hex(ta), p_hash_b: sha256Hex(tb), p_expires: "1 hour",
+    });
+    if (prov.error) throw new Error(prov.error.message);
+    const ra = await admin.rpc("redeem_invite", { p_hash: sha256Hex(ta), p_uid: A.userId });
+    const rb = await admin.rpc("redeem_invite", { p_hash: sha256Hex(tb), p_uid: B.userId });
+    if (ra.error || rb.error) throw new Error("bind failed");
+    idA = ra.data as string; idB = rb.data as string;
+  }
   const byId = { [idA]: A, [idB]: B } as Record<string, Client>;
 
   // ---------- access ----------
@@ -200,7 +211,15 @@ try {
   console.error("ERROR", e instanceof Error ? e.message : e);
   failed++;
 } finally {
-  await admin.from("couple_spaces").delete().neq("id", "00000000-0000-0000-0000-000000000000");
+  if (borrowed) {
+    await admin.from("date_sessions").delete().not("id", "is", null);
+    await admin.from("question_history").delete().not("id", "is", null);
+    await admin.from("saved_moments").delete().not("id", "is", null);
+    await admin.from("members").update({ auth_user_id: null, joined_at: null }).not("id", "is", null);
+  } else {
+    await admin.from("couple_spaces").delete().neq("id", "00000000-0000-0000-0000-000000000000");
+  }
+  await admin.from("rate_limits").delete().neq("key", "");
   for (const id of userIds) await admin.auth.admin.deleteUser(id);
 }
 console.log(failed ? `\n${failed} FAILED` : "\nALL PASSED");

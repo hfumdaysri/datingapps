@@ -1,7 +1,7 @@
 # Ayok Kita Ngedate (datingapps)
 
 Private, browser-based date-night app for exactly two people. Conversation-first games for video calls
-(WhatsApp/Meet/Discord): Truth or Truth, Deep Talk Cards, Would You Rather?, Who's More Likely To?
+(WhatsApp/Meet/Discord): Jujur-jujuran, Kartu Ngobrol, Pilih Mana?, Siapa yang Paling Mungkin?, Seberapa Kenal Aku?
 
 Stack: Next.js 15 (App Router) + strict TypeScript + Tailwind, Supabase (Postgres, Anonymous Auth, Realtime), Vercel.
 See `docs/architecture.md` and `docs/manual-two-device-test.md`.
@@ -35,9 +35,11 @@ Do not change `RECOVERY_PEPPER` after launch: existing recovery keys would stop 
 npm run lint && npm run typecheck && npm test && npm run build
 npm run test:integration   # needs `next dev -p 3100`; access/invite/recovery (A01-A03, A13-A15)
 npm run test:games         # game engine + secrecy + concurrency (A04-A12, A16, A17, A19, A20)
+npm run test:v02           # know-me, retention, custom prompts, export, mutual-consent deletion
+npm run smoke              # two real browsers (laptop + phone) against production; needs SMOKE_BASE or default URL
 ```
 
-The integration scripts create a temporary space and delete it afterwards; they refuse to run if a space already exists.
+When no space exists the integration scripts create a temporary one and delete it afterwards. When the real space exists they borrow both seats, delete the data they created and release the seats, so issue fresh recovery keys afterwards.
 
 ## Deploy (Vercel)
 

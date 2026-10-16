@@ -3,12 +3,13 @@ import type { GameType } from "./api";
 export const TRUTH_CATEGORIES = ["Fun", "Sweet", "Romantic", "Deep"];
 export const DEEP_CATEGORIES = ["Life", "Relationship", "Memories", "Future", "Understanding"];
 
-export type Prefs = { truthCategories: string[]; deepCategories: string[]; vulnerable: boolean };
+export type Prefs = { truthCategories: string[]; deepCategories: string[]; vulnerable: boolean; noScore: boolean };
 
 export const DEFAULT_PREFS: Prefs = {
   truthCategories: TRUTH_CATEGORIES,
   deepCategories: DEEP_CATEGORIES,
   vulnerable: false, // opt-in, OFF by default
+  noScore: false,
 };
 
 export function normalizePrefs(raw: Partial<Prefs> | null | undefined): Prefs {
@@ -16,6 +17,7 @@ export function normalizePrefs(raw: Partial<Prefs> | null | undefined): Prefs {
     truthCategories: raw?.truthCategories?.length ? raw.truthCategories : DEFAULT_PREFS.truthCategories,
     deepCategories: raw?.deepCategories?.length ? raw.deepCategories : DEFAULT_PREFS.deepCategories,
     vulnerable: raw?.vulnerable === true,
+    noScore: raw?.noScore === true,
   };
 }
 
@@ -26,5 +28,6 @@ export function settingsFor(type: GameType, prefs: Prefs) {
     const categories = prefs.vulnerable ? [...prefs.deepCategories, "Vulnerable"] : prefs.deepCategories;
     return { categories, vulnerable: prefs.vulnerable };
   }
+  if (type === "know_me") return { noScore: prefs.noScore };
   return { vulnerable: false };
 }

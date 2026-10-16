@@ -3,6 +3,7 @@ import { AppShell } from "@/components/app-shell";
 import { Card } from "@/components/card";
 import { Button } from "@/components/ui/button";
 import { DateCard } from "@/components/date-card";
+import { DeletionNotice } from "@/components/deletion-notice";
 import { daysTogether } from "@/lib/domain/dates";
 import { getMe, getSpaceMembers } from "@/lib/server/session";
 
@@ -31,6 +32,7 @@ export default async function HomePage() {
         <p className="font-serif text-5xl text-rose">{days}</p>
         <p>hari bersama</p>
       </Card>
+      {me && <DeletionNotice />}
       {me ? (
         <DateCard members={members} />
       ) : (

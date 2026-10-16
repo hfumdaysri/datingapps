@@ -9,7 +9,7 @@ import { ConnectionBanner } from "@/components/connection-banner";
 import { PresenceDot } from "@/components/presence-dot";
 import { useSpace } from "@/components/space-provider";
 import { api, ApiError, GAME_LABEL, type GameState } from "@/lib/client/api";
-import { ConversationView, VoteView } from "./views";
+import { ConversationView, KnowMeView, VoteView } from "./views";
 import { SaveMoment } from "./save-moment";
 
 export type Actions = {
@@ -17,6 +17,8 @@ export type Actions = {
   busy: boolean;
   select: (choice: "left" | "right" | "open") => void;
   submit: (value: string) => void;
+  answer: (text: string) => void;
+  judge: (judgment: "correct" | "close" | "different") => void;
   next: (action: "next" | "skip") => void;
   nameOf: (memberId: string | null | undefined) => string;
   isMyTurn: boolean;
@@ -73,6 +75,8 @@ export function GameRoom({ gameId }: { gameId: string }) {
     nameOf,
     select: (choice) => run.mutate({ path: "select", body: { choice, expectedVersion: v } }),
     submit: (value) => run.mutate({ path: "submit", body: { value } }),
+    answer: (text) => run.mutate({ path: "answer", body: { text } }),
+    judge: (judgment) => run.mutate({ path: "judge", body: { expectedVersion: v, judgment } }),
     next: (action) => run.mutate({ path: "next", body: { expectedVersion: v, action } }),
   };
 
@@ -111,6 +115,8 @@ export function GameRoom({ gameId }: { gameId: string }) {
         ) : round ? (
           game.type === "would_you_rather" || game.type === "most_likely" ? (
             <VoteView a={actions} />
+          ) : game.type === "know_me" ? (
+            <KnowMeView a={actions} />
           ) : (
             <ConversationView a={actions} onSave={() => setSaving(true)} />
           )

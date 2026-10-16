@@ -3,7 +3,7 @@ import { bad, callRpc, readJson } from "@/lib/server/rpc";
 
 export const dynamic = "force-dynamic";
 const cats = z.array(z.string().max(30)).max(10);
-const schema = z.object({ truthCategories: cats, deepCategories: cats, vulnerable: z.boolean() });
+const schema = z.object({ truthCategories: cats, deepCategories: cats, vulnerable: z.boolean(), noScore: z.boolean().optional() });
 
 export const GET = () => callRpc("get_preferences");
 export async function POST(req: Request) {

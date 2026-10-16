@@ -4,9 +4,9 @@ import { bad, callRpc, readJson, uuid } from "@/lib/server/rpc";
 export const dynamic = "force-dynamic";
 const schema = z.object({
   dateId: uuid,
-  gameType: z.enum(["truth_or_truth", "deep_talk", "would_you_rather", "most_likely"]),
+  gameType: z.enum(["truth_or_truth", "deep_talk", "would_you_rather", "most_likely", "know_me"]),
   settings: z
-    .object({ categories: z.array(z.string().max(30)).max(10).optional(), vulnerable: z.boolean().optional() })
+    .object({ categories: z.array(z.string().max(30)).max(10).optional(), vulnerable: z.boolean().optional(), noScore: z.boolean().optional() })
     .optional(),
   replace: z.boolean().optional(),
 });

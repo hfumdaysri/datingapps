@@ -45,6 +45,10 @@ Browser (Next.js client)  --fetch-->  Route handlers (/api/*, Zod)  --user JWT--
 | `POST /api/games/start`, `GET /api/games/:id/state`, `POST /api/games/:id/{select,submit,next,pause,finish}` | |
 | `GET /api/moments`, `POST /api/moments/{propose,approve}` | partner approval required before a moment is shared |
 | `GET/POST /api/preferences` | last-used categories, persisted per space |
+| `POST /api/games/:id/{answer,judge}` | know-me typed answers (private until both submit) and owner judgment (2/1/0) |
+| `GET/POST /api/custom-questions`, `POST /api/custom-questions/remove` | couple-authored prompts |
+| `POST /api/me/rename`, `POST /api/recovery/rotate` | rename self; new recovery key shown once |
+| `GET /api/export`, `GET/POST /api/data-request` | JSON export; request/approve/decline deletion of shared data |
 
 Status codes: 400 invalid, 401 unauthenticated, 403 not a member / not your turn, 404, 409 phase/version conflict or exhausted pool, 429.
 
@@ -55,4 +59,5 @@ Status codes: 400 invalid, 401 unauthenticated, 403 not a member / not your turn
 - Anonymous auth is per browser: clearing storage or switching device requires the recovery key.
 - Idempotency is version-based (409 on stale replays) instead of client-supplied idempotency keys.
 - Category settings are edited on `/games` and `/settings`, not from the in-game pause menu.
-- v0.2 items (How Well Do You Know Me?, export/delete, key rotation UI, nickname editing) are not built.
+- v0.2 shipped: Seberapa Kenal Aku? (answer text is deleted when the round ends), custom prompts, JSON export, delete-shared-data that needs the partner approval, recovery-key rotation, rename. Not built: Memory Lane, Never Have I Ever, scrapbook, date planner.
+- Deleting shared data removes dates, games, history and moments; members, access and custom prompts remain.

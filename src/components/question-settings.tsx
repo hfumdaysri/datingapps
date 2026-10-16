@@ -53,6 +53,13 @@ export function QuestionSettings() {
           </span>
         </span>
       </label>
+      <label className="mt-3 flex min-h-11 cursor-pointer items-start gap-3">
+        <input type="checkbox" className="mt-1.5 size-5" checked={prefs.noScore} onChange={(e) => set({ noScore: e.target.checked })} />
+        <span>
+          <span className="font-semibold">Mode tanpa skor</span>
+          <span className="block text-sm text-plum/70">Seberapa Kenal Aku? dimainkan tanpa poin.</span>
+        </span>
+      </label>
       <p className="mt-3 text-sm text-plum/70" role="status">{save.isPending ? "Menyimpan…" : "Pengaturan tersimpan untuk kalian berdua."}</p>
     </Card>
   );

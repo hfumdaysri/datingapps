@@ -311,6 +311,60 @@ const mostLikely: SeedQuestion[] = mlRows.map(({ p, category, depth, k }) => ({
   followUp: "Ceritakan momen yang membuatmu memilih jawaban itu.",
 }));
 
+// Prompts address the answer-giver; the partner guesses. Light, personal, nothing invasive.
+const knowMe: SeedQuestion[] = list("know_me", "Kenal", "fun", "km", [
+  "Apa makanan favoritmu sepanjang masa?",
+  "Minuman apa yang paling sering kamu pesan?",
+  "Apa warna favoritmu?",
+  "Film atau serial apa yang paling sering kamu tonton ulang?",
+  "Lagu apa yang paling sering kamu putar belakangan ini?",
+  "Hewan apa yang paling ingin kamu pelihara?",
+  "Apa hobi yang paling kamu nikmati saat waktu luang?",
+  "Kamu lebih suka pagi atau malam? Kenapa?",
+  "Apa tempat liburan impianmu?",
+  "Apa jajanan masa kecil yang paling kamu rindukan?",
+  "Apa pelajaran favoritmu saat sekolah?",
+  "Apa yang biasanya kamu lakukan saat sedang bosan?",
+  "Apa hal pertama yang kamu lakukan setelah bangun tidur?",
+  "Apa camilan andalanmu saat begadang?",
+  "Apa kebiasaan kecilmu yang paling sulit dihilangkan?",
+  "Apa aplikasi yang paling sering kamu buka?",
+  "Apa ketakutan kecilmu yang agak lucu?",
+  "Apa makanan yang tidak akan pernah kamu makan lagi?",
+  "Apa kota favoritmu di Indonesia?",
+  "Apa hal yang paling bikin kamu tertawa terbahak-bahak?",
+  "Apa pekerjaan impianmu waktu kecil?",
+  "Siapa tokoh fiksi yang paling kamu suka?",
+  "Apa kegiatan akhir pekan yang paling kamu nantikan?",
+  "Apa kata atau ungkapan yang sering kamu ucapkan?",
+  "Apa barang yang selalu ada di tasmu?",
+  "Apa rasa es krim favoritmu?",
+  "Apa cuaca yang paling kamu suka?",
+  "Apa game atau permainan masa kecil favoritmu?",
+  "Apa olahraga atau aktivitas fisik yang paling kamu nikmati?",
+  "Apa hal kecil yang membuat harimu langsung membaik?",
+  "Apa buku atau cerita yang paling membekas bagimu?",
+  "Apa tempat yang paling membuatmu merasa tenang?",
+  "Apa makanan yang paling cocok kamu makan saat hujan?",
+  "Apa gaya berpakaian yang paling nyaman untukmu?",
+  "Apa hal yang ingin kamu pelajari kalau punya waktu luang?",
+  "Apa kebiasaan pagimu yang tidak bisa ditinggalkan?",
+  "Apa nama panggilan masa kecilmu?",
+  "Apa musik yang kamu putar saat sedang semangat?",
+  "Apa jenis tontonan yang kamu pilih saat ingin santai?",
+  "Apa tempat nongkrong favoritmu?",
+  "Apa hal yang paling kamu banggakan dari dirimu?",
+  "Apa kenangan liburan yang paling kamu sukai?",
+  "Apa makanan yang kamu masak paling enak?",
+  "Apa yang kamu lakukan pertama kali saat gajian atau dapat uang saku?",
+  "Apa impian kecil yang ingin kamu wujudkan tahun ini?",
+  "Apa pelajaran hidup yang paling kamu pegang?",
+  "Apa hal yang paling kamu syukuri hari ini?",
+  "Apa tempat yang paling ingin kamu kunjungi bersamaku?",
+  "Apa kegiatan yang ingin kamu coba bareng aku?",
+  "Apa hal sederhana yang membuatmu merasa disayang?",
+], "Ceritakan kenapa kamu memilih jawaban itu.");
+
 const withFollow = (qs: SeedQuestion[], follow: string) => qs.map((q) => ({ ...q, followUp: q.followUp ?? follow }));
 
 export const SEED_QUESTIONS: SeedQuestion[] = [
@@ -321,6 +375,7 @@ export const SEED_QUESTIONS: SeedQuestion[] = [
   ),
   ...wyr,
   ...mostLikely,
+  ...knowMe,
 ];
 
 export const GAME_CATEGORIES = {

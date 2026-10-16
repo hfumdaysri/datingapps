@@ -11,7 +11,7 @@ const games: Array<{ type: GameType | null; name: string; desc: string; tag: str
   { type: "deep_talk", name: "Kartu Ngobrol", desc: "Tarik satu kartu dan ngobrol, tanpa skor.", tag: "Dalam" },
   { type: "would_you_rather", name: "Pilih Mana?", desc: "Pilih A atau B diam-diam, lalu buka bersama.", tag: "Seru" },
   { type: "most_likely", name: "Siapa yang Paling Mungkin?", desc: "Tebak siapa yang paling mungkin, reveal bareng.", tag: "Seru / Manis" },
-  { type: null, name: "Seberapa Kenal Aku?", desc: "Seberapa kenal kamu dengan pasanganmu.", tag: "Segera Hadir" },
+  { type: "know_me", name: "Seberapa Kenal Aku?", desc: "Satu menjawab jujur, satu menebak. Seberapa kenal kalian?", tag: "Seru / Manis" },
 ];
 
 export function GamesClient() {
