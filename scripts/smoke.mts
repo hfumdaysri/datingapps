@@ -214,7 +214,8 @@ async function cleanup() {
 try {
   await main();
 } catch (e) {
-  console.error("ERROR", e instanceof Error ? e.message.split("\n")[0] : e);
+  const where = e instanceof Error ? (e.stack ?? "").split("\n").filter((l) => l.includes("smoke.mts")).slice(0, 2).join(" @ ") : "";
+  console.error("ERROR", e instanceof Error ? `${e.message.split("\n").slice(0, 2).join(" ")} ${where}` : e);
   failed++;
 } finally {
   await cleanup().catch((e) => console.error("cleanup failed", e));

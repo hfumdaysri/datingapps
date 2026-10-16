@@ -19,6 +19,7 @@ export function LobbyClient({ dateId }: { dateId: string }) {
     queryKey: ["date", dateId],
     queryFn: () => api<DateInfo>(`/api/date/${dateId}`),
     refetchInterval: 4000,
+    gcTime: 0, // never show a stale "Lanjut bermain" link from cache
   });
   const finish = useMutation({
     mutationFn: (d: DateInfo) => api<DateInfo>("/api/date/finish", { dateId: d.id, expectedVersion: d.version }),

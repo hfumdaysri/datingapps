@@ -8,7 +8,7 @@ import { PresenceDot } from "@/components/presence-dot";
 import { api, ApiError, GAME_LABEL, type DateInfo, type Member } from "@/lib/client/api";
 
 export function useActiveDate() {
-  return useQuery({ queryKey: ["date", "active"], queryFn: () => api<DateInfo | null>("/api/date/active"), refetchInterval: 5000 });
+  return useQuery({ queryKey: ["date", "active"], queryFn: () => api<DateInfo | null>("/api/date/active"), refetchInterval: 5000, gcTime: 0 }); // gcTime 0: never show a stale game link after remounting
 }
 
 export function useStartDate() {
