@@ -1,0 +1,10 @@
+{
+  "name": "Our Little Space",
+  "short_name": "Little Space",
+  "description": "A little place for us, no matter the distance.",
+  "start_url": "/home",
+  "display": "standalone",
+  "background_color": "#FFF7F5",
+  "theme_color": "#51445E",
+  "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}
