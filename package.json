@@ -11,7 +11,9 @@
     "test": "vitest run",
     "migrate": "node --env-file=.env.local --import tsx scripts/migrate.mts",
     "setup": "node --env-file=.env.local --import tsx scripts/setup.mts",
-    "test:integration": "node --env-file=.env.local --import tsx scripts/integration.mts"
+    "test:integration": "node --env-file=.env.local --import tsx scripts/integration.mts",
+    "seed": "node --env-file=.env.local --import tsx scripts/seed.mts",
+    "test:games": "node --env-file=.env.local --import tsx scripts/integration-games.mts"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.5.0",

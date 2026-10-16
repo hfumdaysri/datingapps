@@ -43,3 +43,11 @@ export async function getMe(): Promise<Me | null> {
     space: { id: space.id, name: space.name, anniversaryDate: space.anniversary_date },
   };
 }
+
+/** Both members of the space, read through RLS as the signed-in member. */
+export async function getSpaceMembers(spaceId: string) {
+  const supabase = await createServerSupabase();
+  if (!supabase) return [];
+  const { data } = await supabase.from("members").select("id, seat, display_name").eq("space_id", spaceId).order("seat");
+  return (data ?? []).map((m) => ({ id: m.id, seat: m.seat as "A" | "B", name: m.display_name }));
+}
